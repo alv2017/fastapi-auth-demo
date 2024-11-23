@@ -1,0 +1,5 @@
+fastapi[all]
+sqlalchemy>=2.0.0
+passlib
+bcrypt>=3.2.2,<4.0.0
+python-jose[cryptography]
