@@ -1,7 +1,11 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler
-from app.settings import LOG_FILE_LOCATION
 from uvicorn.logging import ColourizedFormatter
+
+from app.settings import settings
+
+
+LOG_FILE_LOCATION = settings.LOG_FILE_LOCATION
 
 
 client_logger = logging.getLogger("client_logger")
