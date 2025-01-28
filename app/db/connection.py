@@ -3,7 +3,9 @@ from functools import lru_cache
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.settings import DATABASE_URL
+from app.settings import settings
+
+DATABASE_URL = settings.DATABASE_URL
 
 
 @lru_cache

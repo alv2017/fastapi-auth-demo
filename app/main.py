@@ -9,7 +9,7 @@ from app.db.schema import Base
 from app.db.schema import User as db_User
 from app.logging import client_logger
 from app.settings import (
-    ENABLE_CLIENT_LOGGING,
+    settings,
     oauth2_scheme
 )
 from app.user_administration import router as user_admin_router
@@ -19,6 +19,9 @@ from app.users.permissions import (
     authenticated_staff_user,
     authenticated_user,
 )
+
+
+ENABLE_CLIENT_LOGGING = settings.ENABLE_CLIENT_LOGGING
 
 
 @asynccontextmanager

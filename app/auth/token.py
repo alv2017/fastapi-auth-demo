@@ -7,7 +7,12 @@ from sqlalchemy.orm import Session
 
 from app.db.operations import get_user
 from app.db.schema import User as db_User
-from app.settings import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
+from app.settings import settings
+
+
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
+ALGORITHM = settings.ALGORITHM
+SECRET_KEY = settings.SECRET_KEY
 
 
 class Token(BaseModel):
