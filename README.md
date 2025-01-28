@@ -12,7 +12,7 @@ This project demonstrates:
 ### 1. Running Project Locally
 
 ```
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --host 127.0.0.1 --port 5000
 ```
 
 
@@ -42,7 +42,7 @@ The file contains a script starting the application locally. It is equivalent to
 launching the command:
 
 ```
-$ uvicorn app.main:app <hos>:<port>
+uvicorn app.main:app --reload
 ```
 
 The script gives us more flexibility to run the server and use it when debugging locally.
