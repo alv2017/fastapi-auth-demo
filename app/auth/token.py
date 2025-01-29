@@ -9,7 +9,6 @@ from app.db.operations import get_user
 from app.db.schema import User as db_User
 from app.settings import settings
 
-
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 ALGORITHM = settings.ALGORITHM
 SECRET_KEY = settings.SECRET_KEY
@@ -37,10 +36,10 @@ class TokenExpiredError(Exception):
 
 
 def create_access_token(
-        data: dict,
-        secret_key: str = SECRET_KEY,
-        algorithm: str = ALGORITHM,
-        token_expire_minutes: int = ACCESS_TOKEN_EXPIRE_MINUTES,
+    data: dict,
+    secret_key: str = SECRET_KEY,
+    algorithm: str = ALGORITHM,
+    token_expire_minutes: int = ACCESS_TOKEN_EXPIRE_MINUTES,
 ) -> str:
     to_encode = data.copy()
     if "exp" not in to_encode:
@@ -52,10 +51,7 @@ def create_access_token(
 
 
 def decode_access_token(
-        token: str,
-        session: Session,
-        secret_key: str = SECRET_KEY,
-        algorithms: str = ALGORITHM
+    token: str, session: Session, secret_key: str = SECRET_KEY, algorithms: str = ALGORITHM
 ) -> Optional[db_User]:
     try:
         payload = jwt.decode(token, secret_key, algorithms=algorithms)

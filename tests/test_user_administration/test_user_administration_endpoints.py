@@ -1,47 +1,35 @@
-import pytest
 from typing import Optional
 
+import pytest
+
 from app.db.schema import User as db_User
-from app.users.models import UserWithRole, UserWithRoleCreate
+from app.users.models import UserWithRoleCreate
 
 
 @pytest.fixture
 def new_basic_user():
     return UserWithRoleCreate(
-        username="new_basic_user",
-        email="new_basic_user@example.com",
-        role="basic",
-        password="basic_secret"
+        username="new_basic_user", email="new_basic_user@example.com", role="basic", password="basic_secret"
     )
 
 
 @pytest.fixture
 def new_staff_user():
     return UserWithRoleCreate(
-        username="new_staff_user",
-        email="new_staff_user@example.com",
-        role="staff",
-        password="staff_secret"
+        username="new_staff_user", email="new_staff_user@example.com", role="staff", password="staff_secret"
     )
 
 
 @pytest.fixture
 def new_admin_user():
     return UserWithRoleCreate(
-        username="new_admin_user",
-        email="new_admin_user@example.com",
-        role="admin",
-        password="admin_secret"
+        username="new_admin_user", email="new_admin_user@example.com", role="admin", password="admin_secret"
     )
 
 
 @pytest.fixture
 def user_update_data():
-    return {
-            "username": "updated_username",
-            "email": "updatated_username@example.com"
-    }
-
+    return {"username": "updated_username", "email": "updatated_username@example.com"}
 
 
 class TestCreateUser:
@@ -114,12 +102,10 @@ class TestCreateUser:
             username=user_data.get("username"),
             email=user_data.get("email"),
             role="basic",
-            password=user_data.get("password")
+            password=user_data.get("password"),
         )
         test_client = client_admin
-        expected_response_data = {
-            "detail": "Username or email already exists"
-        }
+        expected_response_data = {"detail": "Username or email already exists"}
 
         response = test_client.post("/users/", json=new_user.model_dump())
         actual_response_data = response.json()
@@ -250,9 +236,7 @@ class TestGetUser:
         test_client = client_admin
         db_session = non_empty_db_session
         user_id = 1234
-        expected_response_data = {
-            "detail": "User not found"
-        }
+        expected_response_data = {"detail": "User not found"}
 
         response = test_client.get(f"/users/{user_id}/")
         actual_response_data = response.json()
@@ -264,9 +248,7 @@ class TestGetUser:
     def test_get_user_expired_admin_token(self, client_admin_expired):
         test_client = client_admin_expired
         user_id = 1
-        expected_response_data = {
-            "detail": "Unauthorized access"
-        }
+        expected_response_data = {"detail": "Unauthorized access"}
 
         response = test_client.get(f"/users/{user_id}")
         actual_response_data = response.json()
@@ -277,9 +259,7 @@ class TestGetUser:
     def test_get_user_unauthorized_user_cant_perform_operation(self, client_with_non_empty_db):
         test_client = client_with_non_empty_db
         user_id = 1
-        expected_response_data = {
-            "detail": "Not authenticated"
-        }
+        expected_response_data = {"detail": "Not authenticated"}
 
         response = test_client.get(f"/users/{user_id}")
         actual_response_data = response.json()
@@ -290,9 +270,7 @@ class TestGetUser:
     def test_get_user_basic_user_cant_perform_operation(self, client_basic):
         test_client = client_basic
         user_id = 1
-        expected_response_data = {
-            "detail": "Unauthorized access"
-        }
+        expected_response_data = {"detail": "Unauthorized access"}
 
         response = test_client.get(f"/users/{user_id}")
         actual_response_data = response.json()
@@ -303,9 +281,7 @@ class TestGetUser:
     def test_get_user_staff_user_cant_perform_operation(self, client_staff):
         test_client = client_staff
         user_id = 1
-        expected_response_data = {
-            "detail": "Unauthorized access"
-        }
+        expected_response_data = {"detail": "Unauthorized access"}
 
         response = test_client.get(f"/users/{user_id}")
         actual_response_data = response.json()
@@ -345,9 +321,7 @@ class TestUpdateUser:
     def test_update_user_expired_admin_token(self, client_admin_expired, user_update_data):
         test_client = client_admin_expired
         user_id = 1
-        expected_response_data = {
-            "detail": "Unauthorized access"
-        }
+        expected_response_data = {"detail": "Unauthorized access"}
 
         response = test_client.patch(f"/users/{user_id}/", json=user_update_data)
         actual_response_data = response.json()
@@ -359,9 +333,7 @@ class TestUpdateUser:
         test_client = client_admin
         db_session = non_empty_db_session
         user_id = 1234
-        expected_response_data = {
-            "detail": "User not found"
-        }
+        expected_response_data = {"detail": "User not found"}
 
         response = test_client.patch(f"/users/{user_id}/", json=user_update_data)
         actual_response_data = response.json()
@@ -373,9 +345,7 @@ class TestUpdateUser:
     def test_update_use_uauthenticated_user_cant_perform_operation(self, client_with_non_empty_db):
         test_client = client_with_non_empty_db
         user_id = 1
-        expected_response_data = {
-            "detail": "Not authenticated"
-        }
+        expected_response_data = {"detail": "Not authenticated"}
 
         response = test_client.patch(f"/users/{user_id}/")
         actual_response_data = response.json()
@@ -386,9 +356,7 @@ class TestUpdateUser:
     def test_update_use_basic_user_cant_perform_operation(self, client_basic):
         test_client = client_basic
         user_id = 1
-        expected_response_data = {
-            "detail": "Unauthorized access"
-        }
+        expected_response_data = {"detail": "Unauthorized access"}
 
         response = test_client.patch(f"/users/{user_id}/")
         actual_response_data = response.json()
@@ -399,9 +367,7 @@ class TestUpdateUser:
     def test_update_use_staff_user_cant_perform_operation(self, client_staff):
         test_client = client_staff
         user_id = 1
-        expected_response_data = {
-            "detail": "Unauthorized access"
-        }
+        expected_response_data = {"detail": "Unauthorized access"}
 
         response = test_client.patch(f"/users/{user_id}/")
         actual_response_data = response.json()
@@ -431,9 +397,7 @@ class TestDeleteUser:
         test_client = client_admin
         db_session = non_empty_db_session
         user_id = 1234
-        expected_response_data = {
-            "detail": "User not found"
-        }
+        expected_response_data = {"detail": "User not found"}
 
         # user with given id does not exist in test database
         assert db_session.query(db_User).filter(db_User.id == user_id).first() is None
@@ -447,9 +411,7 @@ class TestDeleteUser:
     def test_delete_user_admin_token_expired(self, client_admin_expired):
         test_client = client_admin_expired
         user_id = 1
-        expected_response_data = {
-            "detail": "Unauthorized access"
-        }
+        expected_response_data = {"detail": "Unauthorized access"}
 
         response = test_client.delete(f"/users/{user_id}")
         actual_response_data = response.json()
@@ -460,9 +422,7 @@ class TestDeleteUser:
     def test_delete_user_unauthorized_user_cant_perform_operation(self, client_with_non_empty_db):
         test_client = client_with_non_empty_db
         user_id = 1
-        expected_response_data = {
-            "detail": "Not authenticated"
-        }
+        expected_response_data = {"detail": "Not authenticated"}
 
         response = test_client.delete(f"/users/{user_id}")
         actual_response_data = response.json()
@@ -473,9 +433,7 @@ class TestDeleteUser:
     def test_delete_user_basic_user_cant_perform_operation(self, client_basic):
         test_client = client_basic
         user_id = 1
-        expected_response_data = {
-            "detail": "Unauthorized access"
-        }
+        expected_response_data = {"detail": "Unauthorized access"}
 
         response = test_client.delete(f"/users/{user_id}")
         actual_response_data = response.json()
@@ -486,9 +444,7 @@ class TestDeleteUser:
     def test_delete_user_staff_user_cant_perform_operation(self, client_staff):
         test_client = client_staff
         user_id = 1
-        expected_response_data = {
-            "detail": "Unauthorized access"
-        }
+        expected_response_data = {"detail": "Unauthorized access"}
 
         response = test_client.delete(f"/users/{user_id}")
         actual_response_data = response.json()

@@ -1,4 +1,3 @@
-
 class TestWelcome:
     def test_welcome(self, client):
         test_client = client

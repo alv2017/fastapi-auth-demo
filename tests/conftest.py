@@ -13,11 +13,8 @@ from app.db.connection import get_session
 from app.db.schema import Base
 from app.db.schema import User as db_User
 from app.main import app
-from app.settings import (
-    test_settings as settings,
-    pwd_context,
-)
-
+from app.settings import pwd_context
+from app.settings import test_settings as settings
 
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 ALGORITHM = settings.ALGORITHM

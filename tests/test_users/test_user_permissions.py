@@ -1,16 +1,13 @@
-from datetime import datetime
-
 import pytest
 from fastapi import HTTPException
 
 from app.db.schema import User as db_User
+from app.settings import test_settings
 from app.users.permissions import (
     authenticated_admin_user,
     authenticated_staff_user,
     authenticated_user,
 )
-from app.settings import test_settings
-
 
 ALGORITHM = test_settings.ALGORITHM
 SECRET_KEY = test_settings.SECRET_KEY
@@ -24,10 +21,7 @@ class TestAuthenticatedUser:
         expected_auth_user = basic_user
 
         actual_auth_user = authenticated_user(
-            token=access_token,
-            session=db_session,
-            secret_key=SECRET_KEY,
-            algorithms=ALGORITHM
+            token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
         )
 
         assert isinstance(actual_auth_user, db_User)
@@ -38,24 +32,14 @@ class TestAuthenticatedUser:
         access_token = basic_user_token_expired
 
         with pytest.raises(HTTPException):
-            authenticated_user(
-                token=access_token,
-                session=db_session,
-                secret_key=SECRET_KEY,
-                algorithms=ALGORITHM
-            )
+            authenticated_user(token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM)
 
     def test_authenticated_user_when_token_invalid(self, non_empty_db_session):
         db_session = non_empty_db_session
         access_token = "invalid.token.string"
 
         with pytest.raises(HTTPException):
-            authenticated_user(
-                token=access_token,
-                session=db_session,
-                secret_key=SECRET_KEY,
-                algorithms=ALGORITHM
-            )
+            authenticated_user(token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM)
 
 
 class TestAuthenticatedStaffUser:
@@ -66,10 +50,7 @@ class TestAuthenticatedStaffUser:
         expected_user = staff_user
 
         actual_user = authenticated_staff_user(
-            token=access_token,
-            session=db_session,
-            secret_key=SECRET_KEY,
-            algorithms=ALGORITHM
+            token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
         )
 
         assert isinstance(actual_user, db_User)
@@ -81,10 +62,7 @@ class TestAuthenticatedStaffUser:
 
         with pytest.raises(HTTPException):
             authenticated_staff_user(
-                token=access_token,
-                session=db_session,
-                secret_key=SECRET_KEY,
-                algorithms=ALGORITHM
+                token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
             )
 
     def test_authenticated_staff_user_when_token_invalid(self, non_empty_db_session):
@@ -93,10 +71,7 @@ class TestAuthenticatedStaffUser:
 
         with pytest.raises(HTTPException):
             authenticated_staff_user(
-                token=access_token,
-                session=db_session,
-                secret_key=SECRET_KEY,
-                algorithms=ALGORITHM
+                token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
             )
 
     def test_authenticated_staff_user_when_basic_user_token(self, non_empty_db_session, basic_user_token):
@@ -105,10 +80,7 @@ class TestAuthenticatedStaffUser:
 
         with pytest.raises(HTTPException):
             authenticated_staff_user(
-                token=access_token,
-                session=db_session,
-                secret_key=SECRET_KEY,
-                algorithms=ALGORITHM
+                token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
             )
 
     def test_authenticated_staff_user_when_admin_user_token(self, non_empty_db_session, admin_user_token):
@@ -117,10 +89,7 @@ class TestAuthenticatedStaffUser:
 
         with pytest.raises(HTTPException):
             authenticated_staff_user(
-                token=access_token,
-                session=db_session,
-                secret_key=SECRET_KEY,
-                algorithms=ALGORITHM
+                token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
             )
 
 
@@ -132,10 +101,7 @@ class TestAuthenticatedAdminUser:
         expected_user = admin_user
 
         actual_user = authenticated_admin_user(
-            token=access_token,
-            session=db_session,
-            secret_key=SECRET_KEY,
-            algorithms=ALGORITHM
+            token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
         )
 
         assert isinstance(actual_user, db_User)
@@ -147,10 +113,7 @@ class TestAuthenticatedAdminUser:
 
         with pytest.raises(HTTPException):
             authenticated_admin_user(
-                token=access_token,
-                session=db_session,
-                secret_key=SECRET_KEY,
-                algorithms=ALGORITHM
+                token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
             )
 
     def test_authenticated_admin_user_when_token_invalid(self, non_empty_db_session):
@@ -159,10 +122,7 @@ class TestAuthenticatedAdminUser:
 
         with pytest.raises(HTTPException):
             authenticated_admin_user(
-                token=access_token,
-                session=db_session,
-                secret_key=SECRET_KEY,
-                algorithms=ALGORITHM
+                token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
             )
 
     def test_authenticated_admin_user_when_basic_user_token(self, non_empty_db_session, basic_user_token):
@@ -171,10 +131,7 @@ class TestAuthenticatedAdminUser:
 
         with pytest.raises(HTTPException):
             authenticated_admin_user(
-                token=access_token,
-                session=db_session,
-                secret_key=SECRET_KEY,
-                algorithms=ALGORITHM
+                token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
             )
 
     def test_authenticated_admin_user_when_staff_user_token(self, non_empty_db_session, staff_user_token):
@@ -183,8 +140,5 @@ class TestAuthenticatedAdminUser:
 
         with pytest.raises(HTTPException):
             authenticated_admin_user(
-                token=access_token,
-                session=db_session,
-                secret_key=SECRET_KEY,
-                algorithms=ALGORITHM
+                token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
             )

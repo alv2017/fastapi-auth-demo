@@ -8,10 +8,7 @@ from app.db.connection import get_engine, get_session
 from app.db.schema import Base
 from app.db.schema import User as db_User
 from app.logging import client_logger
-from app.settings import (
-    settings,
-    oauth2_scheme
-)
+from app.settings import oauth2_scheme, settings
 from app.user_administration import router as user_admin_router
 from app.users import router as user_router
 from app.users.permissions import (
@@ -19,7 +16,6 @@ from app.users.permissions import (
     authenticated_staff_user,
     authenticated_user,
 )
-
 
 ENABLE_CLIENT_LOGGING = settings.ENABLE_CLIENT_LOGGING
 
@@ -34,12 +30,16 @@ app = FastAPI(title="User Authentication Demo", lifespan=lifespan)
 
 
 if ENABLE_CLIENT_LOGGING:
+
     @app.middleware("http")
     async def log_requests(request: Request, call_next):
         response = await call_next(request)
         client_logger.info(
             "method: %s, call: %s, ip: %s, status: %s",
-            request.method, request.url.path, request.client.host, response.status_code
+            request.method,
+            request.url.path,
+            request.client.host,
+            response.status_code,
         )
         return response
 
