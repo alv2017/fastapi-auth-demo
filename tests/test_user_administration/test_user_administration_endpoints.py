@@ -405,7 +405,6 @@ class TestUpdateUser:
 
         response = test_client.patch(f"/users/{user_id}/")
         actual_response_data = response.json()
-        print(actual_response_data)
 
         assert response.status_code == 401
         assert actual_response_data == expected_response_data
