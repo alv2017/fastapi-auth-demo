@@ -5,9 +5,7 @@ from jose import jwt
 
 from app.auth.token import create_access_token, decode_access_token
 from app.db.schema import User as db_User
-
 from app.settings import test_settings as settings
-
 
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 ALGORITHM = settings.ALGORITHM
@@ -58,13 +56,8 @@ class TestDecodeAccessToken:
 
         expected_user = basic_user
 
-        result = db_session.query(db_User).filter(db_User.username == basic_user.username).first()
-
         actual_user: Optional[db_User] = decode_access_token(
-            token=access_token,
-            session=db_session,
-            secret_key=SECRET_KEY,
-            algorithms=ALGORITHM
+            token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
         )
 
         assert actual_user is not None
@@ -75,10 +68,7 @@ class TestDecodeAccessToken:
         db_session = non_empty_db_session
         token = basic_user_token_expired
         user: Optional[db_User] = decode_access_token(
-            token=token,
-            session=db_session,
-            secret_key=SECRET_KEY,
-            algorithms=ALGORITHM
+            token=token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
         )
         assert user is None
 
@@ -86,10 +76,7 @@ class TestDecodeAccessToken:
         db_session = session
         token = basic_user_token
         user: Optional[db_User] = decode_access_token(
-            token=token,
-            session=db_session,
-            secret_key=SECRET_KEY,
-            algorithms=ALGORITHM
+            token=token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
         )
         assert user is None
 
@@ -97,9 +84,6 @@ class TestDecodeAccessToken:
         db_session = non_empty_db_session
         token = "invalid.token.string"
         user: Optional[db_User] = decode_access_token(
-            token=token,
-            session=db_session,
-            secret_key=SECRET_KEY,
-            algorithms=ALGORITHM
+            token=token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
         )
         assert user is None
