@@ -22,7 +22,24 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")
 
 
+class TestSettings(Settings):
+    # DB
+    DATABASE_URL: str = "sqlite:///:memory:"
+
+    # JWT Token
+    SECRET_KEY: str = "Test-Secret-Key-2025"
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+
+    # Logging
+    LOG_FILE_LOCATION: str = "tests/logs/test.log"
+    ENABLE_CLIENT_LOGGING: bool = True
+
+    model_config = SettingsConfigDict(env_file=".test.env")
+
+
 settings = Settings()  # type: ignore[call-arg]
+test_settings = TestSettings()  # type: ignore[call-arg]
 
 # Hashing
 pwd_context: CryptContext = CryptContext(schemes=["bcrypt"], deprecated="auto")

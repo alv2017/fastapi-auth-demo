@@ -36,19 +36,29 @@ class TokenExpiredError(Exception):
         super().__init__(self.message)
 
 
-def create_access_token(data: dict) -> str:
+def create_access_token(
+        data: dict,
+        secret_key: str = SECRET_KEY,
+        algorithm: str = ALGORITHM,
+        token_expire_minutes: int = ACCESS_TOKEN_EXPIRE_MINUTES,
+) -> str:
     to_encode = data.copy()
     if "exp" not in to_encode:
-        token_expiration_time = datetime.now(tz=UTC) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        token_expiration_time = datetime.now(tz=UTC) + timedelta(minutes=token_expire_minutes)
         expire = datetime.timestamp(token_expiration_time)
         to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=algorithm)
     return encoded_jwt
 
 
-def decode_access_token(token: str, session: Session) -> Optional[db_User]:
+def decode_access_token(
+        token: str,
+        session: Session,
+        secret_key: str = SECRET_KEY,
+        algorithms: str = ALGORITHM
+) -> Optional[db_User]:
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, secret_key, algorithms=algorithms)
         username: str = payload.get("sub")
     except JWTError:
         return
