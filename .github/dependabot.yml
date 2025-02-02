@@ -11,4 +11,4 @@ updates:
       interval: "daily"
       time: "22:00"
     commit-message:
-      prefix: ":exclamation: "
+      prefix: ":exclamation:"
