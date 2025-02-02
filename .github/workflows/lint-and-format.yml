@@ -26,13 +26,13 @@ jobs:
 
     - name: isort
       run: |
-        uv run isort app/ --check-only --verbose
-        uv run isort tests/ --check-only --verbose
+        uv run isort app/ --check-only
+        uv run isort tests/ --check-only
 
     - name: black
       run: |
-        uv run black app/ --check --verbose
-        uv run black tests/ --check --verbose
+        uv run black app/ --check
+        uv run black tests/ --check
 
     - name: flake8 .
       run: |
