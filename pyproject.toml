@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "bcrypt>=4.2.1",
     "fastapi[standard]>=0.115.8",
+    "flake8-pyproject>=1.2.3",
     "passlib>=1.7.4",
     "pydantic-settings>=2.7.1",
     "python-jose[cryptography]>=3.3.0",
@@ -16,6 +17,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "black>=25.1.0",
+    "flake8>=7.1.1",
     "httpx>=0.28.1",
     "isort>=6.0.0",
     "pytest>=8.3.4",
@@ -38,3 +40,7 @@ testpaths = [
     "tests",
 ]
 asyncio_default_fixture_loop_scope = "function"
+
+[tool.flake8]
+max-line-length = 120
+ignore = ["E501"]
