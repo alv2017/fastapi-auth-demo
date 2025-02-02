@@ -69,7 +69,7 @@ pydantic==2.10.6
     # via
     #   fastapi
     #   pydantic-settings
-pydantic-core==2.27.2
+pydantic-core==2.28.0
     # via pydantic
 pydantic-settings==2.7.1
     # via fastapi-auth-demo (pyproject.toml)
