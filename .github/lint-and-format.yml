@@ -1,0 +1,39 @@
+# This workflow will install uv and run
+
+name: lint-and-format
+
+on:
+  push:
+  pull_request:
+    branches: []
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: lint and format
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+
+    - name: Install the project
+      run: uv sync --all-extras --dev
+
+    - name: isort
+      run: |
+        uv isort app/ --check-only --verbose
+        uv isort tests/ --check-only --verbose
+
+    - name: black
+      run: |
+        uv black app/ --check --verbose
+        uv black tests/ --check --verbose
+
+    - name: flake8 .
+      run: |
+        uv flake8 app/
+        uv flake8 tests/
