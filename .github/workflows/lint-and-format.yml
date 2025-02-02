@@ -3,7 +3,6 @@
 name: lint-and-format
 
 on:
-  push:
   pull_request:
     branches:
       - main
