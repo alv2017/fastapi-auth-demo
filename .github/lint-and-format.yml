@@ -1,4 +1,4 @@
-# This workflow will install uv and run
+# This workflow will install uv and run code formatting and linting checks
 
 name: lint-and-format
 
