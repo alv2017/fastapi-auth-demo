@@ -43,4 +43,5 @@ asyncio_default_fixture_loop_scope = "function"
 
 [tool.flake8]
 max-line-length = 120
+max-complexity = 7
 ignore = ["E501"]
