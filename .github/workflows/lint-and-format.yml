@@ -37,3 +37,6 @@ jobs:
     - name: flake8 .
       run: |
         uv run flake8 app/ tests/
+
+    - name: summary
+      run: echo "Lint and Test Jobs Succeeded. Congratulations !!!"
