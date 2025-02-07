@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  python-tests:
     name: Unit Tests - Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
@@ -31,3 +31,4 @@ jobs:
 
       - name: Run unit tests
         run: uv run pytest tests/
+
