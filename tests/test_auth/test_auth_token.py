@@ -5,11 +5,7 @@ from jose import jwt
 
 from app.auth.token import create_access_token, decode_access_token
 from app.db.schema import User as db_User
-from app.settings import test_settings as settings
-
-ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
-ALGORITHM = settings.ALGORITHM
-SECRET_KEY = settings.SECRET_KEY
+from app.settings import settings
 
 
 class TestCreateToken:
@@ -18,10 +14,10 @@ class TestCreateToken:
         token_data = {"sub": user.username}
         access_token = create_access_token(
             data=token_data,
-            secret_key=SECRET_KEY,
-            algorithm=ALGORITHM,
+            secret_key=settings.SECRET_KEY,
+            algorithm=settings.ALGORITHM,
         )
-        decoded_access_token_data = jwt.decode(access_token, SECRET_KEY, algorithms=ALGORITHM)
+        decoded_access_token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=settings.ALGORITHM)
 
         assert isinstance(access_token, str)
         assert len(access_token) > 0
@@ -35,10 +31,10 @@ class TestCreateToken:
         token_data = {"sub": basic_user.username, "exp": token_expiration_time}
         access_token = create_access_token(
             data=token_data,
-            secret_key=SECRET_KEY,
-            algorithm=ALGORITHM,
+            secret_key=settings.SECRET_KEY,
+            algorithm=settings.ALGORITHM,
         )
-        decoded_access_token_data = jwt.decode(access_token, SECRET_KEY, algorithms=ALGORITHM)
+        decoded_access_token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=settings.ALGORITHM)
 
         assert isinstance(access_token, str)
         assert len(access_token) > 0
@@ -57,7 +53,7 @@ class TestDecodeAccessToken:
         expected_user = basic_user
 
         actual_user: Optional[db_User] = decode_access_token(
-            token=access_token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
+            token=access_token, session=db_session, secret_key=settings.SECRET_KEY, algorithms=settings.ALGORITHM
         )
 
         assert actual_user is not None
@@ -68,7 +64,7 @@ class TestDecodeAccessToken:
         db_session = non_empty_db_session
         token = basic_user_token_expired
         user: Optional[db_User] = decode_access_token(
-            token=token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
+            token=token, session=db_session, secret_key=settings.SECRET_KEY, algorithms=settings.ALGORITHM
         )
         assert user is None
 
@@ -76,7 +72,7 @@ class TestDecodeAccessToken:
         db_session = session
         token = basic_user_token
         user: Optional[db_User] = decode_access_token(
-            token=token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
+            token=token, session=db_session, secret_key=settings.SECRET_KEY, algorithms=settings.ALGORITHM
         )
         assert user is None
 
@@ -84,6 +80,6 @@ class TestDecodeAccessToken:
         db_session = non_empty_db_session
         token = "invalid.token.string"
         user: Optional[db_User] = decode_access_token(
-            token=token, session=db_session, secret_key=SECRET_KEY, algorithms=ALGORITHM
+            token=token, session=db_session, secret_key=settings.SECRET_KEY, algorithms=settings.ALGORITHM
         )
         assert user is None
