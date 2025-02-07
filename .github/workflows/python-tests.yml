@@ -29,7 +29,7 @@ jobs:
         run: uv sync --dev
 
       - name: Rename .env.example to .env
-        run: mv .env.example .env; ls -alh
+        run: mv .env.example .env; ls /tmp
 
       - name: Run unit tests
         run: uv run pytest tests/
