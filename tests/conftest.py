@@ -13,8 +13,7 @@ from app.db.connection import get_session
 from app.db.schema import Base
 from app.db.schema import User as db_User
 from app.main import app
-from app.settings import pwd_context
-from app.settings import settings
+from app.settings import pwd_context, settings
 
 # ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 # ALGORITHM = settings.ALGORITHM
@@ -76,7 +75,7 @@ def basic_user_token(basic_user):
     user: db_User = basic_user
     token_data = {
         "sub": user.username,
-        "exp": datetime.now(tz=UTC) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        "exp": datetime.now(tz=UTC) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     }
     token: str = jwt.encode(token_data, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return token
@@ -105,7 +104,7 @@ def staff_user_token(staff_user):
     user: db_User = staff_user
     token_data = {
         "sub": user.username,
-        "exp": datetime.now(tz=UTC) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        "exp": datetime.now(tz=UTC) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     }
     token: str = jwt.encode(token_data, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return token
@@ -134,7 +133,7 @@ def admin_user_token(admin_user):
     user: db_User = admin_user
     token_data = {
         "sub": user.username,
-        "exp": datetime.now(tz=UTC) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        "exp": datetime.now(tz=UTC) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     }
     token: str = jwt.encode(token_data, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return token
