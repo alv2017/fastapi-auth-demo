@@ -32,7 +32,7 @@ class TestSettings(Settings):
     LOG_FILE_LOCATION: str = "tests/logs/test.log"
     ENABLE_CLIENT_LOGGING: bool = True
 
-    model_config = SettingsConfigDict(env_file=".test.env")
+    model_config = SettingsConfigDict(env_file="")
 
 
 settings = Settings()  # type: ignore[call-arg]
