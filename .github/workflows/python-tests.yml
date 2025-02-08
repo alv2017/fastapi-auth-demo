@@ -28,5 +28,8 @@ jobs:
       - name: Install the project
         run: uv sync --dev
 
+      - name: Do some magic
+        run: mv .env.workflow .env
+
       - name: Run unit tests
         run: uv run pytest tests/
