@@ -35,7 +35,7 @@ extend_skip = [".md"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
-addopts = "-svv --cov=app"
+addopts = "--cov=app"
 testpaths = [
     "tests",
 ]

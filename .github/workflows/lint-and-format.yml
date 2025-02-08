@@ -40,19 +40,3 @@ jobs:
     - name: flake8 .
       run: |
         uv run flake8 app/ tests/
-
-  # https://github.com/marketplace/actions/alls-green#why
-  check:  # A check for whether the dependency jobs are all green.
-    if: always()
-    needs:
-      - lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Decide whether the needed jobs succeeded or failed
-        uses: re-actors/alls-green@release/v1
-        with:
-          jobs: ${{ toJSON(needs) }}
